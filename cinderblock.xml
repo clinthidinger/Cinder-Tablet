@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<cinder>
+<block
+  name="Tablet"
+  id="org.libcinder.Cinder-Tablet"
+  git="https://github.com/clinthidinger/Cinder-Tablet.git"
+  author="Clint Hidinger"
+  summary="Wacom tablet support."
+  url="https://github.com/clinthidinger/cinder-tablet"
+  version="0.0.0"
+  libraryUrl="https://github.com/clinthidinger/cinder-tablet"
+  >
+  <supports os="macosx" />
+  <supports os="ios" />
+  <supports os="msw" />
+  <headerPattern>include/*.hpp</headerPattern>
+  <sourcePattern>src/*.cpp</sourcePattern>
+  <platform os="msw">
+    <includePath>include/wintab/</includePath>
+    <includePath>src/wintab/</includePath>
+  </platform>
+</block>
+</cinder>
