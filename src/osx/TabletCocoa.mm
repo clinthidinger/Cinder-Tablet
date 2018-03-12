@@ -2,20 +2,27 @@
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
+#import "osx/TabletCocoa.h"
+#include <algorithm>
+#include <cmath>
 #import <Cocoa/Cocoa.h>
-#import "tabletCocoa.h"
 
 // forward declarations, keep NSEvent out of the C++ compatible header
-void handlePoint(TabletData &data, NSEvent *event);
-void handleProximity(TabletData &data, NSEvent *event);
+void handlePoint( TabletData &data, NSEvent *event );
+void handleProximity( TabletData &data, NSEvent *event );
 
-void setupTabletCocoa(TabletData &tabletData) {
-    unsigned long long tabletmask =   NSMouseMovedMask|
-                                NSLeftMouseDownMask|
-                                NSRightMouseDownMask|
-                                NSLeftMouseDraggedMask|
-                                NSRightMouseDraggedMask;
-    
+void setupTabletCocoa( TabletData &tabletData ) {
+    //unsigned long long tabletmask =   NSMouseMovedMask|
+    //                            NSLeftMouseDownMask|
+    //                            NSRightMouseDownMask|
+    //                            NSLeftMouseDraggedMask|
+    //                            NSRightMouseDraggedMask;
+    unsigned long long tabletmask =  NSEventTypeMouseMoved |
+                                     NSEventTypeLeftMouseDown |
+                                     NSEventTypeRightMouseDown |
+                                     NSEventTypeLeftMouseDragged |
+                                     NSEventTypeRightMouseDragged;
+   
     id handler = [NSEvent addLocalMonitorForEventsMatchingMask:tabletmask handler:^(NSEvent *event) {
         
         switch ([event subtype]) {
@@ -52,16 +59,17 @@ void handlePoint(TabletData &data, NSEvent *event) {
     // Maybe only do this if we need it???
     data.tiltVec[0] = data.tiltX;
     data.tiltVec[1] = data.tiltY;
-    data.tiltVec[2] = sqrt( std::max( 0.0, 1.0 - ( data.tiltX * data.tiltX ) - ( data.tiltY * data.tiltY ) ) );
+    data.tiltVec[2] = std::sqrt( std::max<float>( 0.0f, 1.0f - ( data.tiltX * data.tiltX ) - ( data.tiltY * data.tiltY ) ) );
 }
 
 void handleProximity(TabletData &data, NSEvent *event) {
-    if ([event isEnteringProximity])
-        data.in_proximity = TRUE;
-    else
-        data.in_proximity = FALSE;
-    
-    data.pointerType = [event pointingDeviceType];
+    if ([event isEnteringProximity]) {
+        data.inProximity = true;
+    }
+    else {
+        data.inProximity = false;
+    }
+    data.pointerType = (TabletPointerType)[event pointingDeviceType];
     data.pointerID = [event pointingDeviceID];
     data.deviceID = [event deviceID];
     

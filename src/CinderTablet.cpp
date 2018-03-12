@@ -5,20 +5,20 @@
 #include "CinderTablet.h"
 
 #ifdef __APPLE__
-    #include "TabletCocoa.h"
+    #include "osx/TabletCocoa.h"
 #endif
 
 //ofEvent<TabletData> ciTablet::tabletEvent;
 //TabletData ciTablet::tabletData;
-ciTablet::ciTablet()
+CinderTablet::CinderTablet()
 {
     init();
 }
 
-void ciTablet::init()
+void CinderTablet::init()
 {
-    mTabletData.tabletPointFunc = std::bind(&ciTablet::updateTabletPoint, this);
-    mTabletData.tabletProximityFunc = std::bind(&ciTablet::updateTabletProximity, this);
+    mTabletData.tabletPointFunc = [this] () { updateTabletPoint(); };
+    mTabletData.tabletProximityFunc = [this] () { updateTabletProximity(); };
 #ifdef __APPLE__
     // only Mac Cocoa implemented so far
     setupTabletCocoa(mTabletData);
@@ -28,7 +28,7 @@ void ciTablet::init()
 
 // Tablet data update method implemented here to so it can
 // call ofNotifyEvent without including openframeworks in obj-c code
-void ciTablet::updateTabletPoint() 
+void CinderTablet::updateTabletPoint()
 {
     
     //mTabletData.tiltVec[0] = mTabletData.tiltX;
@@ -38,7 +38,7 @@ void ciTablet::updateTabletPoint()
     mTabletPointSignal.emit( mTabletData );
 }
 
-void ciTablet::updateTabletProximity()
+void CinderTablet::updateTabletProximity()
 {
     mTabletProximitySignal.emit( mTabletData );
 }

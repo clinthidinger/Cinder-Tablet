@@ -4,10 +4,10 @@
 
 #pragma once
 
-//#include <functional>
+#include <functional>
 
 enum class TabletPointerType
- {
+{
     UNKNOWN,       // should never happen
     PEN,           // tip end of a stylus like device
     CURSOR,        // any puck like device
@@ -31,7 +31,7 @@ struct TabletData
     
     // from proximity events
     bool inProximity{ false };
-    TabletPointerType pointerType{ TabletPointerType::Unknown };
+    TabletPointerType pointerType{ TabletPointerType::UNKNOWN };
     int pointerID{ 0 };          // index of the device on this tablet
     int deviceID{ 0 };           // used to match pointer events with proximity events
     
@@ -43,7 +43,7 @@ struct TabletData
     float tiltVec[3];      // reconstructed 3d vector representing pen tilt
     
     // update global tablet data for use in openFrameworks, implemented in ciTablet.cpp
-    //!!!std::function<void()> tabletPointFunc;
-    //!!!std::function<void()> tabletProximityFunc;
+    std::function<void()> tabletPointFunc;
+    std::function<void()> tabletProximityFunc;
     //void update();
 };

@@ -9,23 +9,22 @@ using namespace ci::app;
 class SimpleTabletApp : public App {
   public:
     SimpleTabletApp();
+    virtual ~SimpleTabletApp() = default;
 	void mouseDown( MouseEvent event ) override;
     void keyDown( KeyEvent event ) override;
 	void update() override;
 	void draw() override;
   private:
     void applyStroke( const TabletData &tabletData );
-    ciTablet mTablet;
-    float mRadius;
-    std::vector<vec3> mPoints;
+    CinderTablet mTablet;
+    float mRadius { 10.0f };
+    std::vector<vec2> mPoints;
 };
 
 SimpleTabletApp::SimpleTabletApp()
-    : mRadius( 10.0f )
 {
-    std::function<void(const TabletData &)> tabletFunc = std::bind( &SimpleTabletApp::applyStroke, this, std::placeholders::_1 );
-    mTablet.getTabletSignal().connect( tabletFunc );
-    setFullScreen( true );
+    mTablet.getTabletPointSignal().connect( [this] ( const TabletData &tabletData ) { applyStroke( tabletData ); } );
+    //setFullScreen( true );
 }
 
 void SimpleTabletApp::applyStroke( const TabletData &tabletData )
@@ -35,12 +34,17 @@ void SimpleTabletApp::applyStroke( const TabletData &tabletData )
                                    ( vec2( tabletData.x, tabletData.y ) - vec2( getWindowPos() ) );
     relPos.y = getWindowHeight() - relPos.y;
    
-    if(getWindowBounds().contains( relPos ) ) only if mouse is down and pressure  > 0.0f
+    if( getWindowBounds().contains( relPos ) ) //??? only if mouse is down and pressure  > 0.0f
     {
         mPoints.push_back( vec3( relPos, tabletData.pressure ) );
     }
 }
 
+void SimpleTabletApp::mouseDown( MouseEvent event )
+{
+    // Store the current mouse position in the list.
+    mPoints.push_back( event.getPos() );
+}
 
 void SimpleTabletApp::keyDown( KeyEvent event )
 {
@@ -61,8 +65,33 @@ void SimpleTabletApp::keyDown( KeyEvent event )
     }
 }
 
+void SimpleTabletApp::update()
+{
+    
+}
+
 void SimpleTabletApp::draw()
 {
+    // Clear the contents of the window. This call will clear
+    // both the color and depth buffers.
+    gl::clear( Color::gray( 0.1f ) );
+    
+    // Set the current draw color to orange by setting values for
+    // red, green and blue directly. Values range from 0 to 1.
+    // See also: gl::ScopedColor
+    gl::color( 1.0f, 0.5f, 0.25f );
+    
+    // We're going to draw a line through all the points in the list
+    // using a few convenience functions: 'begin' will tell OpenGL to
+    // start constructing a line strip, 'vertex' will add a point to the
+    // line strip and 'end' will execute the draw calls on the GPU.
+    gl::begin( GL_LINE_STRIP );
+    for( const vec2 &point : mPoints ) {
+        gl::vertex( point );
+    }
+    gl::end();
+    
+    /*
 	gl::clear( Color( 0, 0, 0 ) );
     
     gl::begin( GL_LINE_STRIP );
@@ -72,6 +101,7 @@ void SimpleTabletApp::draw()
     }
     gl::end();
     gl::color( 1.0f, 1.0f, 1.0f, 1.0f );
+     */
 }
 
 CINDER_APP( SimpleTabletApp, RendererGl )

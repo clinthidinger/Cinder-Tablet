@@ -5,8 +5,7 @@
 #pragma once
 #include "cinder/Signals.h"
 #include "cinder/vector.h"
-#include "tabletData.h"
-
+#include "TabletData.h"
 
 class CinderTablet
 {
@@ -32,6 +31,6 @@ public:
 
 private:
     TabletData mTabletData;
-    signal_t mTabletPointSignal;
+    signal_t mTabletPointSignal; // ??? Do we need these signals when TabletData has callbacks???
     signal_t mTabletProximitySignal;
 };
