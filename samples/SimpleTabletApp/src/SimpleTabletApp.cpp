@@ -2,11 +2,12 @@
 #include "cinder/app/RendererGl.h"
 #include "cinder/gl/gl.h"
 #include "CinderTablet.h"
+#include "CinderTabletApp.h"
 
 using namespace ci;
 using namespace ci::app;
 
-class SimpleTabletApp : public App {
+class SimpleTabletApp : public App {//public CinderTabletApp {
   public:
     SimpleTabletApp();
     virtual ~SimpleTabletApp() = default;

@@ -5,6 +5,7 @@ if( NOT TARGET Cinder-Tablet )
     set( Cinder-Tablet_INCLUDES
         ${Cinder-Tablet_INC_PATH}/CinderTablet.h
         ${Cinder-Tablet_INC_PATH}/TabletData.h
+        ${Cinder-Tablet_INC_PATH}/CinderTabletApp.h
     )
 
     set( Cinder-Tablet_SOURCES
