@@ -1,8 +1,6 @@
-// Copyright (c) 2014 Matt Ebb
-// Distributed under the MIT/X11 software license, see the accompanying
-// file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 #pragma once
+
 #include "cinder/Signals.h"
 #include "cinder/Vector.h"
 #include "TabletData.h"
@@ -25,6 +23,7 @@ public:
     void updateTabletPoint();
     void updateTabletProximity();
     inline TabletData &getData() { return mTabletData; }
+    inline const TabletData &getData() const { return mTabletData; }
     inline signal_t &getTabletPointSignal() { return mTabletPointSignal; }
     inline signal_t &getTabletProximitySignal() { return mTabletProximitySignal; }
     inline bool isStylusInProximity() const { return mIsStylusInProximity; }
@@ -34,4 +33,5 @@ private:
     signal_t mTabletPointSignal;
     signal_t mTabletProximitySignal;
     bool mIsStylusInProximity{ false };
+    bool mDoComputeTiltZ{ false };
 };

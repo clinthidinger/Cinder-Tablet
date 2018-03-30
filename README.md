@@ -1,5 +1,6 @@
 
 Work In Progress
 
-Heavily referenced https://github.com/mattebb/ofxTablet
+
+Referenced https://github.com/mattebb/ofxTablet for osx.
 
