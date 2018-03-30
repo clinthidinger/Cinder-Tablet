@@ -42,8 +42,7 @@ struct TabletData
     float absScreen[2];    // absolute floating point location relative to main screen in (0,1)
     float tiltVec[3];      // reconstructed 3d vector representing pen tilt
     
-    // update global tablet data for use in openFrameworks, implemented in ciTablet.cpp
+    // update global tablet data for use in cinder, implemented in ciTablet.cpp
     std::function<void()> tabletPointFunc;
     std::function<void()> tabletProximityFunc;
-    //void update();
 };

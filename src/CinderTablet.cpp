@@ -12,18 +12,12 @@
 //TabletData ciTablet::tabletData;
 CinderTablet::CinderTablet()
 {
-    init();
-}
-
-void CinderTablet::init()
-{
     mTabletData.tabletPointFunc = [this] () { updateTabletPoint(); };
     mTabletData.tabletProximityFunc = [this] () { updateTabletProximity(); };
 #ifdef __APPLE__
     // only Mac Cocoa implemented so far
-    setupTabletCocoa(mTabletData);
+    setupTabletCocoa( mTabletData );
 #endif
-
 }
 
 // Tablet data update method implemented here to so it can
@@ -35,10 +29,12 @@ void CinderTablet::updateTabletPoint()
     //mTabletData.tiltVec[1] = mTabletData.tiltY;
     //mTabletData.tiltVec[2] = sqrt( std::max( 0.0, 1.0 - ( mTabletData.tiltX * mTabletData.tiltX ) - ( mTabletData.tiltY * mTabletData.tiltY ) ) );
     
+    mIsStylusInProximity = true;
     mTabletPointSignal.emit( mTabletData );
 }
 
 void CinderTablet::updateTabletProximity()
 {
+    mIsStylusInProximity = mTabletData.inProximity;
     mTabletProximitySignal.emit( mTabletData );
 }

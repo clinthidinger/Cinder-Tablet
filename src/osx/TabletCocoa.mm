@@ -12,18 +12,16 @@ void handlePoint( TabletData &data, NSEvent *event );
 void handleProximity( TabletData &data, NSEvent *event );
 
 void setupTabletCocoa( TabletData &tabletData ) {
-    //unsigned long long tabletmask =   NSMouseMovedMask|
-    //                            NSLeftMouseDownMask|
-    //                            NSRightMouseDownMask|
-    //                            NSLeftMouseDraggedMask|
-    //                            NSRightMouseDraggedMask;
-    unsigned long long tabletmask =  NSEventTypeMouseMoved |
-                                     NSEventTypeLeftMouseDown |
-                                     NSEventTypeRightMouseDown |
-                                     NSEventTypeLeftMouseDragged |
-                                     NSEventTypeRightMouseDragged;
-   
-    id handler = [NSEvent addLocalMonitorForEventsMatchingMask:tabletmask handler:^(NSEvent *event) {
+    unsigned long long tabletMask = NSEventMaskMouseMoved |
+                                    NSEventMaskLeftMouseDown |
+                                    NSEventMaskRightMouseDown |
+                                    NSEventMaskLeftMouseDragged |
+                                    NSEventMaskRightMouseDragged |
+                                    NSEventMaskTabletPoint |
+                                    NSEventMaskTabletProximity
+                                    ;
+    
+    id handler = [NSEvent addLocalMonitorForEventsMatchingMask:tabletMask handler:^(NSEvent *event) {
         
         switch ([event subtype]) {
             case NX_SUBTYPE_TABLET_POINT:
@@ -41,7 +39,8 @@ void setupTabletCocoa( TabletData &tabletData ) {
     }];
 }
 
-void handlePoint(TabletData &data, NSEvent *event) {
+void handlePoint( TabletData &data, NSEvent *event)
+{
 
     NSRect frame = [[NSScreen mainScreen] frame];
     data.absScreen[0] = [NSEvent mouseLocation].x / (frame.size.width);
@@ -62,7 +61,8 @@ void handlePoint(TabletData &data, NSEvent *event) {
     data.tiltVec[2] = std::sqrt( std::max<float>( 0.0f, 1.0f - ( data.tiltX * data.tiltX ) - ( data.tiltY * data.tiltY ) ) );
 }
 
-void handleProximity(TabletData &data, NSEvent *event) {
+void handleProximity(TabletData &data, NSEvent *event)
+{
     if ([event isEnteringProximity]) {
         data.inProximity = true;
     }

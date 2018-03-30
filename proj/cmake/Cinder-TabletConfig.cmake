@@ -10,6 +10,7 @@ if( NOT TARGET Cinder-Tablet )
 
     set( Cinder-Tablet_SOURCES
         ${Cinder-Tablet_SOURCE_PATH}/CinderTablet.cpp
+        ${Cinder-Tablet_SOURCE_PATH}/CinderTabletApp.cpp
     )
 
     source_group( "src" FILES ${Cinder-Tablet_SOURCES} )

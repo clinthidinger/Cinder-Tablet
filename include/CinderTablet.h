@@ -4,7 +4,7 @@
 
 #pragma once
 #include "cinder/Signals.h"
-#include "cinder/vector.h"
+#include "cinder/Vector.h"
 #include "TabletData.h"
 
 class CinderTablet
@@ -13,24 +13,25 @@ public:
     
     enum class TabletPointerType
 	{
-        Unknown = 0,       // should never happen
-        Pen,               // tip end of a stylus like device
-        Cursor,            // any puck like device
-        Eraser             // eraser end of a stylus like device
+        Unknown = 0, // should never happen
+        Pen,         // tip end of a stylus like device
+        Cursor,      // any puck like device
+        Eraser       // eraser end of a stylus like device
     };
     
     using signal_t = ci::signals::Signal<void ( const TabletData& )>;
     
     CinderTablet();
-    void init();
     void updateTabletPoint();
     void updateTabletProximity();
     inline TabletData &getData() { return mTabletData; }
     inline signal_t &getTabletPointSignal() { return mTabletPointSignal; }
     inline signal_t &getTabletProximitySignal() { return mTabletProximitySignal; }
-
+    inline bool isStylusInProximity() const { return mIsStylusInProximity; }
+    
 private:
     TabletData mTabletData;
-    signal_t mTabletPointSignal; // ??? Do we need these signals when TabletData has callbacks???
+    signal_t mTabletPointSignal;
     signal_t mTabletProximitySignal;
+    bool mIsStylusInProximity{ false };
 };
