@@ -8,15 +8,6 @@
 class CinderTablet
 {
 public:
-    
-    enum class TabletPointerType
-	{
-        Unknown = 0, // should never happen
-        Pen,         // tip end of a stylus like device
-        Cursor,      // any puck like device
-        Eraser       // eraser end of a stylus like device
-    };
-    
     using signal_t = ci::signals::Signal<void ( const TabletData& )>;
     
     CinderTablet();
