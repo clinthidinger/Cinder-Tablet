@@ -37,7 +37,8 @@ void SimpleTabletApp::applyStroke( const TabletData &tabletData )
     relPos.y = getWindowHeight() - relPos.y;
    
     //ci::app::console() << relPos << "\n";
-    if( getWindowBounds().contains( relPos ) )
+    constexpr float MinPressure = 0.001f;
+    if( getWindowBounds().contains( relPos ) && ( tabletData.pressure > MinPressure ) )
     {
         mPoints.push_back( Point { vec2( relPos ), tabletData.pressure } );
         refresh();
