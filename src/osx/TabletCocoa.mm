@@ -60,6 +60,7 @@ void handlePoint( TabletData &data, NSEvent *event )
     data.tangentialPressure = [event tangentialPressure];
     data.tiltVec[0] = data.tiltX;
     data.tiltVec[1] = data.tiltY;
+    data.tiltVec[2] = 0.0f;
 }
 
 void handleProximity( TabletData &data, NSEvent *event )
