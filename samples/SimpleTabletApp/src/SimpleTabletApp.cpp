@@ -83,6 +83,11 @@ void SimpleTabletApp::keyDown( KeyEvent event )
 
 void SimpleTabletApp::draw()
 {
+    if( !mHasUpdate ) // Todo: look into tweaking timer inside cinder.
+    {
+        return;
+    }
+    
     gl::clear( Color::gray( 0.1f ) );
     gl::color( 1.0f, 0.5f, 0.25f );
     
